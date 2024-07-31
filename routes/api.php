@@ -16,5 +16,7 @@ Route::get('/visitors', [VisitorController::class, 'index']);
 Route::post('/visitor-store', [VisitorController::class, 'store']);
 Route::post('/visitor-update/{id}', [VisitorController::class, 'update']);
 Route::post('/visitor-delete/{id}', [VisitorController::class, 'destroy']);
+Route::get('/count-visitors', [VisitorController::class, 'countVisitors']);
 
+Route::get('/suggestions', [SuggestionController::class, 'index']);
 Route::post('/suggestion-store', [SuggestionController::class, 'store']);

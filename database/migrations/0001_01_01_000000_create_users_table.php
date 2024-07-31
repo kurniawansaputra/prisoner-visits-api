@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->date('date_visited');
+            $table->string('role')->default('user');
             $table->timestamps();
         });
 

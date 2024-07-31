@@ -117,4 +117,41 @@ class VisitorController extends Controller
             'message' => 'Visitor deleted successfully',
         ], 200);
     }
+
+    // get count of visitors every month and year
+    public function countVisitors(Request $request)
+    {
+        $visitors = Visitor::selectRaw('COUNT(*) as total, EXTRACT(MONTH FROM date_visited) as month, EXTRACT(YEAR FROM date_visited) as year')
+            ->groupBy('month', 'year')
+            ->orderByRaw('year, month')
+            ->get();
+
+        // Map of month numbers to month names
+        $months = [
+            1 => 'Jan',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Apr',
+            5 => 'May',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'Aug',
+            9 => 'Sep',
+            10 => 'Oct',
+            11 => 'Nov',
+            12 => 'Dec',
+        ];
+
+        // Transform the result to replace month numbers with month names
+        $visitors->transform(function ($item) use ($months) {
+            $item->month = $months[$item->month];
+            $item->year = substr($item->year, -2); // Get the last two digits of the year
+            return $item;
+        });
+        return response()->json([
+            'status' => true,
+            'message' => 'Visitors count retrieved successfully',
+            'data' => $visitors,
+        ], 200);
+    }
 }

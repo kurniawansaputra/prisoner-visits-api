@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SuggestionResource;
 use App\Models\Suggestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,14 @@ class SuggestionController extends Controller
      */
     public function index()
     {
-        //
+        // get all suggestions order by id desc
+        $suggestions = Suggestion::orderBy('id', 'desc')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Suggestions retrieved successfully',
+            'data' => SuggestionResource::collection($suggestions),
+        ], 200);
     }
 
     /**
