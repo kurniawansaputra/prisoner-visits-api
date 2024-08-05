@@ -13,6 +13,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/login', [UserController::class, 'login']);
 
 Route::get('/visitors', [VisitorController::class, 'index']);
+Route::get('/visitors-by-month', [VisitorController::class, 'getVisitorsByMonthAndYear']);
 Route::post('/visitor-store', [VisitorController::class, 'store']);
 Route::post('/visitor-update/{id}', [VisitorController::class, 'update']);
 Route::post('/visitor-delete/{id}', [VisitorController::class, 'destroy']);

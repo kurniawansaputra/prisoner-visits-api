@@ -20,6 +20,8 @@ class VisitorResource extends JsonResource
             'name' => $this->name,
             'address' => $this->address,
             'date_visited' => $this->date_visited,
+            'prisoner_number' => $this->prisoner_number,
+            'luggage' => $this->luggage,
         ];
     }
 }

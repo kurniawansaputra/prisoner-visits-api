@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('address');
             $table->date('date_visited');
+            $table->text('prisoner_number');
+            $table->text('luggage');
             $table->timestamps();
         });
     }

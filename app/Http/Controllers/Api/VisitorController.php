@@ -35,6 +35,8 @@ class VisitorController extends Controller
             'name' => 'required|string',
             'address' => 'required|string',
             'date_visited' => 'required|date',
+            'prisoner_number' => 'required|string',
+            'luggage' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -79,6 +81,8 @@ class VisitorController extends Controller
             'name' => 'required|string',
             'address' => 'required|string',
             'date_visited' => 'required|date',
+            'prisoner_number' => 'required|string',
+            'luggage' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -152,6 +156,33 @@ class VisitorController extends Controller
             'status' => true,
             'message' => 'Visitors count retrieved successfully',
             'data' => $visitors,
+        ], 200);
+    }
+
+    // get visistors by month and year and order by date visited
+    public function getVisitorsByMonthAndYear(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'month' => 'required|integer|between:1,12',
+            'year' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors(),
+            ], 200);
+        }
+
+        $visitors = Visitor::whereMonth('date_visited', $request->month)
+            ->whereYear('date_visited', $request->year)
+            ->orderBy('date_visited', 'desc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Visitors retrieved successfully',
+            'data' => VisitorResource::collection($visitors),
         ], 200);
     }
 }
